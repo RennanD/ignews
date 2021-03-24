@@ -53,7 +53,7 @@ $ yarn
 $ yarn dev
 ```
 
-Open Your app is runnig on [localhost:3000](http://localhost:300)
+Open Your app is runnig on [localhost:3000](http://localhost:3000)
 
 # App Demo
 
