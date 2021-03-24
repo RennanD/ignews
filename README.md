@@ -39,9 +39,9 @@ This application consists of a newsletter, which informs subscribers of the main
   In this project we use:
 </p>
 
-- [Stripe](https://stripe.com/br), for the payment controller.
+- [Stripe](https://stripe.com/br), as payment controller.
 - [FaunaDB](https://fauna.com/), for database.
-- [Prismic](https://prismic.io/), for your CSM
+- [Prismic](https://prismic.io/), for our CSM
 
 ### ⚡️ Start
 
@@ -53,7 +53,7 @@ $ yarn
 $ yarn dev
 ```
 
-Open Your app is runnig on [localhost:3000](http://localhost:3000)
+Our app is runnig on [localhost:3000](http://localhost:3000)
 
 # App Demo
 
