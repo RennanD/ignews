@@ -6,10 +6,11 @@ import { stripe } from '../../services/stripe';
 interface SubscriptionProps {
   subscriptionId: string;
   customerId: string;
+  createAction?: boolean
 }
 
 export async function saveSubscription({
-  subscriptionId, customerId
+  subscriptionId, customerId, createAction = false
 }: SubscriptionProps) {
   const userRef = await fauna.query(
     query.Select(
@@ -32,10 +33,27 @@ export async function saveSubscription({
     price_id: subscription.items.data[0].price.id,
   }
 
-  await fauna.query(
-    query.Create(
-      query.Collection('subscriptions'),
-      { data: subscriptionData }
+  if(createAction) {
+    await fauna.query(
+      query.Create(
+        query.Collection('subscriptions'),
+        { data: subscriptionData }
+      )
     )
-  )
+  } else {
+    await fauna.query(
+      query.Replace(
+        query.Select(
+          "ref",
+          query.Get(
+            query.Match(
+              query.Index('subscription_by_id'),
+              subscription.id
+            )
+          )
+        ),
+        { data: subscriptionData }
+      )
+    )
+  }
 }
