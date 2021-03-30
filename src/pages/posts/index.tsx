@@ -6,8 +6,21 @@ import Prismic from '@prismicio/client';
 import styles from '../../styles/posts.module.scss';
 
 import { getPrismicClient } from '../../services/prismic';
+import { RichText } from 'prismic-dom';
 
-export default function Posts() {
+
+type Post = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  updated_at: string;
+}
+
+interface PostsProps {
+  posts: Post[];
+}
+
+export default function Posts({ posts }: PostsProps) {
   return (
     <>
       <Head>
@@ -16,41 +29,13 @@ export default function Posts() {
 
       <main className={styles.container}>
         <div className={styles.posts}>
-          <a href="#">
-            <time>29 de março de 2021</time>
-            <strong>Best Practices With React Hooks</strong>
-            <p>
-              React Hooks are a new addition in React 16.8 that let you use 
-              state and other React features without writing a class component. 
-              In other words, 
-              Hooks are functions that let you “hook into” React state and 
-              lifecycle features from function components.
-            </p>
-          </a>
-
-          <a href="#">
-            <time>29 de março de 2021</time>
-            <strong>Best Practices With React Hooks</strong>
-            <p>
-              React Hooks are a new addition in React 16.8 that let you use 
-              state and other React features without writing a class component. 
-              In other words, 
-              Hooks are functions that let you “hook into” React state and 
-              lifecycle features from function components.
-            </p>
-          </a>
-
-          <a href="#">
-            <time>29 de março de 2021</time>
-            <strong>Best Practices With React Hooks</strong>
-            <p>
-              React Hooks are a new addition in React 16.8 that let you use 
-              state and other React features without writing a class component. 
-              In other words, 
-              Hooks are functions that let you “hook into” React state and 
-              lifecycle features from function components.
-            </p>
-          </a>
+          {posts.map(post => (
+            <a key={post.slug} href="#">
+              <time>{post.updated_at}</time>
+              <strong>{post.title}</strong>
+              <p>{post.excerpt}</p>
+            </a>
+          ))}
         </div>
       </main>
     </>
@@ -68,9 +53,20 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   );
 
-  console.log(response)
+  const posts = response.results.map(post => ({
+    slug: post.uid,
+    title: RichText.asText(post.data.title),
+    excerpt: post.data.content.find(
+      content => content.type === 'paragraph'
+    )?.text ?? "",
+    updated_at: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    })
+  }))
 
   return {
-    props: {}
+    props: { posts }
   }
 }
