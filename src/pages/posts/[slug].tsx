@@ -8,6 +8,7 @@ import { ptBR } from 'date-fns/locale';
 import styles from '../../styles/post.module.scss';
 
 import { getPrismicClient } from "../../services/prismic";
+import { Session } from "next-auth";
 
 type Post = {
   slug: string;
@@ -18,6 +19,10 @@ type Post = {
 
 interface PostProps {
   post: Post;
+}
+
+interface UserSession extends Session {
+  activeSubscription: object;
 }
 
 export default function Post({ post }: PostProps) {
@@ -43,11 +48,19 @@ export default function Post({ post }: PostProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
-  const session = await getSession({ req });
+  const session = await getSession({ req }) as UserSession;
   const { slug } = params;
-  // if(!session) {
 
-  // }
+  console.log(session);
+
+  if(!session.activeSubscription) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
 
   const prismic = getPrismicClient(req);
 
