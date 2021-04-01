@@ -51,9 +51,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
   const session = await getSession({ req }) as UserSession;
   const { slug } = params;
 
-  console.log(session);
-
-  if(!session.activeSubscription) {
+  if(!session?.activeSubscription) {
     return {
       redirect: {
         destination: '/',
