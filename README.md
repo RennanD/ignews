@@ -15,7 +15,7 @@
 # Cloning this repository
 
 ```
-$ git clone https://github.com/RennanD/ignews.git
+git clone https://github.com/RennanD/ignews.git
 ```
 
 # ❗️ Requisites
@@ -48,9 +48,26 @@ This application consists of a newsletter, which informs subscribers of the main
 To start application, run:
 
 ```
-$ cd ignews
-$ yarn
-$ yarn dev
+cd ignews
+yarn
+yarn dev
+
+# or
+
+cd ignews
+npm install
+npm run dev
+```
+To simulate pruduction project
+
+```
+yarn build
+yarn start
+
+# or
+
+npm run build
+npm run start
 ```
 
 Our app is runnig on [localhost:3000](http://localhost:3000)
@@ -58,5 +75,5 @@ Our app is runnig on [localhost:3000](http://localhost:3000)
 # App Demo
 
 <h1 align="center">
-    <img alt = "Web app" src = "./.github/hero.png" width = "500px" />
+    <img alt = "Web app" src = "./.github/hero.png" width = "700px" />
 </h1>
